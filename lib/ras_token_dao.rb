@@ -1,7 +1,7 @@
 # frozen_string_literals: true
 
 class RasTokenDao
-  def random_token(account)
+  def gen_random(account)
     (0..9)
       .to_a
       .sample(6)
