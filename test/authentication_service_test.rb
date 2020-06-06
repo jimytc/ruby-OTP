@@ -1,25 +1,33 @@
 # frozen_string_literals: true
 
 require 'minitest/autorun'
+require 'mocha/minitest'
 
 require_relative '../lib/loads'
 
 class AuthenticationServiceTest < MiniTest::Unit::TestCase
+  def setup
+    @profile = stub('object')
+    @token = stub('object')
+    @target = AuthenticationService.new(@profile, @token)
+  end
+
   def test_is_valid
-    target = AuthenticationService.new(FakeProfile.new, FakeToken.new)
-    actual = target.valid?('joey', '91000000')
+    given_password('joey', '91')
+    given_token('0' * 6)
+    should_be_valid('joey', '91000000')
+  end
+
+  def should_be_valid(account, password)
+    actual = @target.valid?(account, password)
     assert_equal true, actual
   end
-end
 
-class FakeProfile
-  def password(account)
-    '91'
+  def given_token(token)
+    @token.expects(:gen_random).returns(token)
   end
-end
 
-class FakeToken
-  def gen_random(account)
-    '0' * 6
+  def given_password(account, password)
+    @profile.expects(:password).with(account).returns(password)
   end
 end
