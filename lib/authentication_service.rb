@@ -3,9 +3,10 @@
 class AuthenticationService
   attr_reader :profile, :token
 
-  def initialize(profile = nil, token = nil)
+  def initialize(profile = nil, token = nil, logger = nil)
     @profile = profile || ProfileDao.new
     @token = token || RasTokenDao.new
+    @logger = logger || LoggerBase.new
   end
 
   def valid?(account, password)
@@ -22,6 +23,7 @@ class AuthenticationService
     if is_valid
       true
     else
+      @logger.save("Account:#{account} tried to login failed")
       false
     end
   end

@@ -10,7 +10,8 @@ class AuthenticationServiceTest < MiniTest::Unit::TestCase
     super
     @profile = stub('IProfile')
     @token = stub('IToken')
-    @target = AuthenticationService.new(@profile, @token)
+    @logger = Class.new { def save(message); end }.new
+    @target = AuthenticationService.new(@profile, @token, @logger)
   end
 
   def test_is_valid
@@ -23,6 +24,23 @@ class AuthenticationServiceTest < MiniTest::Unit::TestCase
     given_password('joey', '91')
     given_token('0' * 6)
     should_be_invalid('joey', 'wrong password')
+  end
+
+  def test_should_log_account_when_invalid
+    when_invalid('joey')
+    should_log('joey', 'wrong password')
+  end
+
+  def should_log(account, password)
+    @logger.expects(:save)
+           .with { |message| message.include?('Account') && message.include?('login failed') }
+           .once
+    @target.valid?(account, password)
+  end
+
+  def when_invalid(account)
+    given_password(account, '91')
+    given_token('0' * 6)
   end
 
   private
