@@ -7,6 +7,7 @@ require_relative '../lib/loads'
 
 class AuthenticationServiceTest < MiniTest::Unit::TestCase
   def setup
+    super
     @profile = stub('IProfile')
     @token = stub('IToken')
     @target = AuthenticationService.new(@profile, @token)
