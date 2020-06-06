@@ -20,6 +20,6 @@ end
 
 class FakeToken
   def gen_random(account)
-    '000000'
+    '0' * 6
   end
 end
