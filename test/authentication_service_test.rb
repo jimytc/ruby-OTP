@@ -18,6 +18,19 @@ class AuthenticationServiceTest < MiniTest::Unit::TestCase
     should_be_valid('joey', '91000000')
   end
 
+  def test_is_invalid
+    given_password('joey', '91')
+    given_token('0' * 6)
+    should_be_invalid('joey', 'wrong password')
+  end
+
+  private
+
+  def should_be_invalid(account, password)
+    actual = @target.valid?(account, password)
+    assert_equal false, actual
+  end
+
   def should_be_valid(account, password)
     actual = @target.valid?(account, password)
     assert_equal true, actual
