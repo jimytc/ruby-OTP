@@ -5,7 +5,7 @@ require 'mocha/minitest'
 
 require_relative '../lib/loads'
 
-class AuthenticationServiceTest < MiniTest::Unit::TestCase
+class AuthenticationServiceTest < MiniTest::Test
   def setup
     super
     @profile = stub('IProfile')
@@ -33,7 +33,7 @@ class AuthenticationServiceTest < MiniTest::Unit::TestCase
 
   def should_log(account, password)
     @logger.expects(:save)
-           .with { |message| message.include?('Account') && message.include?('login failed') }
+           .with { |message| message.include?(account) && message.include?('login failed') }
            .once
     @target.valid?(account, password)
   end
