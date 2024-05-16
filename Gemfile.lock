@@ -9,7 +9,8 @@ GEM
       ast (~> 2.4.0)
     rainbow (3.0.0)
     regexp_parser (1.7.0)
-    rexml (3.2.5)
+    rexml (3.2.8)
+      strscan (>= 3.0.9)
     rubocop (0.85.0)
       parallel (~> 1.10)
       parser (>= 2.7.0.1)
@@ -22,6 +23,7 @@ GEM
     rubocop-ast (0.0.3)
       parser (>= 2.7.0.1)
     ruby-progressbar (1.10.1)
+    strscan (3.1.0)
     unicode-display_width (1.7.0)
 
 PLATFORMS
